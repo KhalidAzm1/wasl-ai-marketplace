@@ -34,7 +34,7 @@ Technical readers who want the full governance record behind any tool (review hi
 
 ## Two kinds of catalog entry
 
-Starting in **v1.1**, the catalog distinguishes two kinds of entry, both governed by the same Research → Production pipeline:
+Since **v1.1**, the catalog distinguishes two kinds of entry, both governed by the same Research → Production pipeline:
 
 - **AI Platforms** (`type: external-platform`) — third-party or open-source software WASL is evaluating as possible infrastructure (Dify, AnythingLLM). These remain unchanged from v1.0.
 - **Internal WASL Agents** (`type: internal-agent`) — WASL-specific agent *concepts* proposed to be built on WASL's own shared agent platform (Replit + n8n + Azure OpenAI + Azure AI Search), not separate external GitHub projects. See [`/web/docs/architecture.md`](web/docs/architecture.md) for the shared-platform design and the Replit/n8n/Azure OpenAI/Azure AI Search responsibility split.
@@ -55,8 +55,11 @@ The catalog is organized into scalable categories so it can grow to dozens or hu
 |---|---|---|---|---|
 | [Dify](projects/dify/README.md) | AI Assistants / Automation | 🔵 Research | 🟡 Medium Risk | [langgenius/dify](https://github.com/langgenius/dify) |
 | [AnythingLLM](projects/anythingllm/README.md) | AI Assistants / Knowledge & RAG | 🔵 Research | 🟡 Medium Risk | [Mintplex-Labs/anything-llm](https://github.com/Mintplex-Labs/anything-llm) |
+| [Langfuse](projects/langfuse/README.md) | Developers / Data & Analytics | 🔵 Research | 🟡 Medium Risk | [langfuse/langfuse](https://github.com/langfuse/langfuse) |
+| [Flowise](projects/flowise/README.md) | Automation / AI Assistants | 🔵 Research | 🟡 Medium Risk | [FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) |
+| [Open WebUI](projects/open-webui/README.md) | AI Assistants | 🔵 Research | 🟡 Medium Risk | [open-webui/open-webui](https://github.com/open-webui/open-webui) |
 
-### Internal WASL Agents (v1.1 — added as Research-stage concepts)
+### Internal WASL Agents (added as Research-stage concepts)
 
 | Agent | Category | Status | Security | Priority | POC Order |
 |---|---|---|---|---|---|
@@ -70,10 +73,14 @@ The catalog is organized into scalable categories so it can grow to dozens or hu
 | [WASL Growth Agent](projects/wasl-growth-agent/README.md) | Marketing | 🔵 Research | 🟡 Medium Risk | High | 8 |
 | [WASL Dev Review Agent](projects/wasl-dev-review-agent/README.md) | Developers | 🔵 Research | 🟡 Medium Risk | High | 9 |
 | [WASL BD Intelligence Agent](projects/wasl-bd-intelligence-agent/README.md) | Business Development / Partnerships | 🔵 Research | 🟡 Medium Risk | High | 10 |
+| [WASL IT Helpdesk Agent](projects/wasl-it-helpdesk-agent/README.md) | Automation / Developers | 🔵 Research | 🟡 Medium Risk | Medium | 11 |
+| [WASL Cybersecurity Copilot](projects/wasl-cybersecurity-copilot/README.md) | Cybersecurity / Compliance & Legal | 🔵 Research | 🔴 High Risk | Medium | 12 |
+| [WASL Customer Support Copilot](projects/wasl-customer-support-copilot/README.md) | Automation / Knowledge & RAG | 🔵 Research | 🔴 High Risk | Medium | 13 |
+| [WASL Legal Contract Copilot](projects/wasl-legal-contract-copilot/README.md) | Compliance & Legal | 🔵 Research | 🔴 High Risk | Medium | 14 |
 
-All 12 catalog entries are at **🔵 Research** status — none are built, deployed, approved, or SAMA compliant. All capabilities, use cases, and integrations described on their pages (here and in the web app) are proposed, not live. Security classifications above are an **initial assessment pending formal Security Review**, not a final determination.
+All 19 catalog entries are at **🔵 Research** status — none are built, deployed, approved, or SAMA compliant. All capabilities, use cases, and integrations described on their pages (here and in the web app) are proposed, not live. Security classifications above are an **initial assessment pending formal Security Review**, not a final determination.
 
-The POC Order column reflects the marketplace maintainers' recommended internal-agent build order — an initial recommendation pending PMO/leadership sign-off, not a committed schedule. It's also shown as a roadmap on the marketplace homepage.
+The POC Order column reflects the marketplace maintainers' recommended internal-agent build order — an initial recommendation pending PMO/leadership sign-off, not a committed schedule. It's also shown as a roadmap on the marketplace homepage and as a sortable list on the web app's **Review Queue** page (`/review`) — see [`/web/docs/architecture.md`](web/docs/architecture.md) for what that page does.
 
 ## How to suggest an AI tool
 
@@ -121,7 +128,7 @@ Tools move through a lightweight, risk-proportionate review pipeline: **Suggeste
 ├── projects/                # Full governance write-up per tool/agent (source of truth)
 │   ├── dify/README.md
 │   ├── anythingllm/README.md
-│   └── wasl-*/README.md     # 10 internal WASL Agent concepts (v1.1)
+│   └── wasl-*/README.md     # 14 internal WASL Agent concepts (v1.1 + v1.2)
 ├── templates/
 │   ├── ai-project-template.md
 │   ├── security-review-template.md
@@ -134,7 +141,7 @@ Tools move through a lightweight, risk-proportionate review pipeline: **Suggeste
 │   └── PULL_REQUEST_TEMPLATE.md
 └── web/                     # ⭐ The actual employee-facing marketplace (Next.js app)
     ├── src/data/tools.json   # Structured catalog data the app renders
-    ├── src/app/               # Pages: home, tool detail, request access, suggest tool
+    ├── src/app/               # Pages: home, tool detail, request access, suggest tool, review queue, compare
     └── docs/architecture.md  # GitHub-vs-app split, auth readiness, deployment targets
 ```
 
