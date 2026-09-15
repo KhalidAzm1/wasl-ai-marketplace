@@ -69,11 +69,13 @@ Reviewers may add extra scrutiny at their discretion; this table is a floor, not
 
 Catalog changes (new projects, status updates, documentation fixes) are made via Pull Request so changes are visible and reviewable — see the [Contribution Guide](contribution-guide.md).
 
-## Internal WASL Agents and the POC roadmap (v1.1)
+## Internal WASL Agents and the POC roadmap (v1.1 + v1.2)
 
-Since v1.1, the catalog also includes **internal WASL Agent concepts** — WASL-specific agent ideas (e.g. WASL Regulatory Copilot, WASL Data Analyst) proposed to be built on WASL's shared agent platform (Replit + n8n + Azure OpenAI + Azure AI Search), rather than separate external GitHub projects. They move through the exact same pipeline above — every one of the ten added in v1.1 enters at 🔵 Research status.
+Since v1.1, the catalog also includes **internal WASL Agent concepts** — WASL-specific agent ideas (e.g. WASL Regulatory Copilot, WASL Data Analyst) proposed to be built on WASL's shared agent platform (Replit + n8n + Azure OpenAI + Azure AI Search), rather than separate external GitHub projects. They move through the exact same pipeline above — every one of the fourteen added so far (ten in v1.1, four more in v1.2) enters at 🔵 Research status.
 
-Each internal agent's catalog entry carries a `pocOrder` field: the marketplace maintainers' recommended build order across all ten agents, from 1 (build first) to 10. This reflects an initial assessment of business value and readiness, not a committed schedule or leadership-approved roadmap — final prioritization is a PMO/leadership decision. The current recommended order:
+v1.2 also added three new **AI Platform** entries (Langfuse, Flowise, Open WebUI) — third-party open-source tools under evaluation, not WASL-built agents, and therefore not part of the internal-agent POC order below. See the [README's catalog table](../README.md#current-catalog) for the full platform list.
+
+Each internal agent's catalog entry carries a `pocOrder` field: the marketplace maintainers' recommended build order across all fourteen agents, from 1 (build first) to 14. This reflects an initial assessment of business value and readiness, not a committed schedule or leadership-approved roadmap — final prioritization is a PMO/leadership decision. The current recommended order:
 
 1. WASL Product & BA Copilot
 2. WASL Regulatory Copilot
@@ -85,5 +87,9 @@ Each internal agent's catalog entry carries a `pocOrder` field: the marketplace 
 8. WASL Growth Agent
 9. WASL Dev Review Agent
 10. WASL BD Intelligence Agent
+11. WASL IT Helpdesk Agent
+12. WASL Cybersecurity Copilot
+13. WASL Customer Support Copilot
+14. WASL Legal Contract Copilot
 
-This order is also rendered as a roadmap section on the marketplace homepage. See [`/web/docs/architecture.md`](../web/docs/architecture.md) for the shared-platform architecture these agents are proposed to run on.
+This order is also rendered as a roadmap section on the marketplace homepage, and as a sortable, all-Research-status list on the web app's Review Queue page (`/review`) for maintainers. See [`/web/docs/architecture.md`](../web/docs/architecture.md) for the shared-platform architecture these agents are proposed to run on.
