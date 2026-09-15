@@ -2,10 +2,17 @@ import Link from "next/link";
 import type { Tool } from "@/types/tool";
 import StatusBadge from "./StatusBadge";
 import SecurityBadge from "./SecurityBadge";
+import TypeBadge from "./TypeBadge";
 
 export default function ToolCard({ tool }: { tool: Tool }) {
   return (
-    <article className="animate-fadeUp flex flex-col gap-3.5 rounded-2xl border border-slate-200 bg-white p-5 shadow-card transition-all duration-200 hover:-translate-y-1 hover:shadow-card-hover dark:border-slate-800 dark:bg-slate-900">
+    <article
+      className={`animate-fadeUp flex flex-col gap-3.5 rounded-2xl border bg-white p-5 shadow-card transition-all duration-200 hover:-translate-y-1 hover:shadow-card-hover dark:bg-slate-900 ${
+        tool.type === "internal-agent"
+          ? "border-brand/30 dark:border-brand/40"
+          : "border-slate-200 dark:border-slate-800"
+      }`}
+    >
       <div className="flex items-start justify-between gap-2.5">
         <div
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[11px] text-sm font-extrabold text-white"
@@ -26,7 +33,8 @@ export default function ToolCard({ tool }: { tool: Tool }) {
 
       <p className="flex-1 text-sm text-slate-600 dark:text-slate-300">{tool.description}</p>
 
-      <div>
+      <div className="flex flex-wrap gap-2">
+        <TypeBadge type={tool.type} />
         <SecurityBadge level={tool.securityLevel} />
       </div>
 
