@@ -26,7 +26,7 @@ export default async function HomePage({
     <div>
       <section className="py-12 text-center sm:py-16">
         <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-[0.72rem] font-bold uppercase tracking-wide text-brand dark:border-slate-800 dark:bg-slate-900">
-          WASL AI Marketplace · v1.1
+          WASL AI Marketplace · v1.2
         </span>
         <h1 className="bg-gradient-to-br from-slate-900 to-brand bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-5xl dark:from-white dark:to-brand-light">
           WASL AI Marketplace
@@ -137,7 +137,15 @@ export default async function HomePage({
           <Link href="/suggest-tool" className="font-bold text-brand hover:underline">
             Suggest an AI Tool
           </Link>
-          .
+          . Maintainers can see everything still awaiting a decision in the{" "}
+          <Link href="/review" className="font-bold text-brand hover:underline">
+            Review Queue
+          </Link>
+          , and anyone can put up to three tools or agents side by side on the{" "}
+          <Link href="/compare" className="font-bold text-brand hover:underline">
+            Compare
+          </Link>{" "}
+          page.
         </p>
       </section>
 
