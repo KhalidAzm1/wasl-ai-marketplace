@@ -16,6 +16,55 @@ Concretely: an employee clicking **Request Access** fills out a normal web form.
 - **Governance stays intact.** Review history, security review templates, and audit trail continue to live in GitHub exactly as designed — nothing about the governance process changes, only how employees *consume* the result of that governance.
 - **Scalability.** The web app reads from a typed JSON data model (`src/data/tools.json`), not hard-coded components, so adding the 3rd, 30th, or 300th tool is a data change, not a code change.
 
+## v1.1: internal WASL Agents and the shared agent platform
+
+Starting in v1.1, the catalog holds two kinds of entry (see the `type` field on the `Tool` model in `src/types/tool.ts`):
+
+- **`external-platform`** — a third-party/open-source platform WASL is evaluating as infrastructure (Dify, AnythingLLM). Unchanged from v1.0.
+- **`internal-agent`** — a WASL-specific agent *concept* (e.g. WASL Regulatory Copilot, WASL Data Analyst). These are **not separate external GitHub projects** and are **not deployed** — every one of them is a Research-stage concept write-up, same governance pipeline as any other catalog entry.
+
+The ten internal agents added in v1.1 are proposed to share one platform rather than each getting bespoke infrastructure:
+
+```
+Employee
+   │
+   ▼
+WASL Marketplace / Replit App      (employee-facing UI layer)
+   │
+   ▼
+n8n                                (orchestration, integrations, automation)
+   │
+   ▼
+Agent Logic
+   │
+   ▼
+Azure OpenAI + Azure AI Search + Approved Internal Systems
+   │
+   ▼
+Output / Action / Human Approval
+```
+
+**Why a shared platform, not per-agent infrastructure:** ten agents each provisioning their own hosting, auth, and integration plumbing would multiply both engineering effort and the Security Review surface area. A shared platform means one hosting environment, one integration layer, and one set of security controls to review — individual agents differ in their *logic* (prompts, workflows, data sources), not their infrastructure.
+
+### Replit vs. n8n vs. Azure OpenAI vs. Azure AI Search — responsibilities
+
+| Layer | Responsible for |
+|---|---|
+| **Replit** | Employee UI: chat interface, agent pages, dashboards, file upload, results display, approval buttons, history. |
+| **n8n** | Workflow orchestration, system integrations (Jira, Azure DevOps, Microsoft Teams, email, internal APIs), scheduled jobs, notifications, approval routing, data movement between systems. |
+| **Azure OpenAI** | LLM reasoning: generation, classification, analysis, summarization. |
+| **Azure AI Search** | Retrieval over approved internal knowledge (policies, documentation) for RAG-grounded answers with citations. |
+
+This split is proposed, not built. No Replit app, n8n instance, or Azure resource has been provisioned for any internal agent as of this write-up — see each agent's `projects/<slug>/README.md` for its individual "Suggested Architecture" section.
+
+### Human approval is a first-class field, not an afterthought
+
+Every internal agent's catalog entry carries a `humanApprovalRequired` field. Where true (all ten v1.1 agents currently set this), the entry's Security & Compliance section on the detail page explicitly states that irreversible actions, financial transactions, external communications, or writes to systems of record must be confirmed by a person — the agent proposes, a human decides. This is a design constraint carried into the data model, not just prose.
+
+### POC roadmap
+
+Internal agents carry a `pocOrder` field reflecting the marketplace maintainers' recommended build order (1 = build first). This is rendered as a roadmap section on the marketplace homepage and referenced from `/docs/governance.md`. It is an initial recommendation pending PMO/leadership sign-off — not a committed schedule, and not a claim that any agent is being actively built.
+
 ## Data flow
 
 ```
