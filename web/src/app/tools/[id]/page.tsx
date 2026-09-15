@@ -4,7 +4,8 @@ import type { Metadata } from "next";
 import { getAllToolIds, getToolById } from "@/lib/tools";
 import StatusBadge from "@/components/StatusBadge";
 import SecurityBadge from "@/components/SecurityBadge";
-import { DEPLOYMENT_LABEL } from "@/data/taxonomy";
+import TypeBadge from "@/components/TypeBadge";
+import { DEPLOYMENT_LABEL, PRIORITY_META } from "@/data/taxonomy";
 
 export function generateStaticParams() {
   return getAllToolIds().map((id) => ({ id }));
@@ -54,8 +55,16 @@ export default async function ToolDetailPage({
             <h1 className="text-2xl font-extrabold sm:text-3xl">{tool.name}</h1>
             <p className="mt-1.5 text-slate-600 dark:text-slate-300">{tool.tagline}</p>
             <div className="mt-3 flex flex-wrap gap-2">
+              <TypeBadge type={tool.type} />
               <StatusBadge status={tool.status} />
               <SecurityBadge level={tool.securityLevel} />
+              {tool.priority && (
+                <span
+                  className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.7rem] font-bold ${PRIORITY_META[tool.priority].bgClass} ${PRIORITY_META[tool.priority].textClass}`}
+                >
+                  {tool.priority} Priority
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -100,6 +109,21 @@ export default async function ToolDetailPage({
             <p>{tool.whyEvaluating}</p>
           </Block>
 
+          {tool.capabilities && tool.capabilities.length > 0 && (
+            <Block title="Main Capabilities (Proposed)">
+              <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                {tool.capabilities.map((c) => (
+                  <li
+                    key={c}
+                    className="flex items-start gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-[0.85rem] text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
+                  >
+                    ✅ {c}
+                  </li>
+                ))}
+              </ul>
+            </Block>
+          )}
+
           <Block title="Who Can Benefit">
             <div className="flex flex-wrap gap-2">
               {tool.departments.map((d) => (
@@ -126,6 +150,14 @@ export default async function ToolDetailPage({
             </ul>
           </Block>
 
+          {tool.exampleWorkflow && (
+            <Block title="Example Workflow">
+              <p className="rounded-lg border border-slate-200 bg-slate-50 px-3.5 py-3 font-mono text-[0.8rem] leading-relaxed dark:border-slate-800 dark:bg-slate-900">
+                {tool.exampleWorkflow}
+              </p>
+            </Block>
+          )}
+
           <Block title="Data Considerations">
             <p>{tool.dataConsiderations}</p>
           </Block>
@@ -134,6 +166,13 @@ export default async function ToolDetailPage({
             <p>{tool.securityNotes}</p>
             <p className="mt-3">{tool.complianceNotes}</p>
             <p className="mt-3">{tool.dataResidencyNotes}</p>
+            {tool.humanApprovalRequired && (
+              <p className="mt-3 rounded-lg border border-status-pilot/30 bg-status-pilot/10 px-3.5 py-2.5 text-[0.85rem]">
+                ⚠️ <strong>Human approval required:</strong> any irreversible action, financial
+                transaction, external communication, or write to a system of record must be confirmed by
+                a person — this agent only proposes.
+              </p>
+            )}
             <p className="mt-4 rounded-lg border border-risk-high/25 bg-risk-high/[0.06] px-3.5 py-2.5 text-[0.85rem] font-semibold">
               No tool is considered approved, secure, or SAMA compliant unless formally reviewed by WASL
               Security and Compliance/Legal.
@@ -153,6 +192,27 @@ export default async function ToolDetailPage({
                 <h4 className="mb-1 font-bold text-slate-800 dark:text-slate-100">Architecture</h4>
                 <p>{tool.architecture}</p>
               </div>
+              {tool.suggestedArchitecture && (
+                <div>
+                  <h4 className="mb-1 font-bold text-slate-800 dark:text-slate-100">
+                    Suggested Architecture (Replit / n8n / Azure)
+                  </h4>
+                  <ul className="space-y-1.5">
+                    {tool.suggestedArchitecture.replit && (
+                      <li><strong>Replit:</strong> {tool.suggestedArchitecture.replit}</li>
+                    )}
+                    {tool.suggestedArchitecture.n8n && (
+                      <li><strong>n8n:</strong> {tool.suggestedArchitecture.n8n}</li>
+                    )}
+                    {tool.suggestedArchitecture.azureOpenAI && (
+                      <li><strong>Azure OpenAI:</strong> {tool.suggestedArchitecture.azureOpenAI}</li>
+                    )}
+                    {tool.suggestedArchitecture.azureAISearch && (
+                      <li><strong>Azure AI Search:</strong> {tool.suggestedArchitecture.azureAISearch}</li>
+                    )}
+                  </ul>
+                </div>
+              )}
               <div>
                 <h4 className="mb-1 font-bold text-slate-800 dark:text-slate-100">Deployment Model</h4>
                 <p>
@@ -216,6 +276,12 @@ export default async function ToolDetailPage({
             <MetaRow k="License" v={tool.license ?? "N/A"} />
             <MetaRow k="Last Reviewed" v={tool.lastReviewed} />
             <MetaRow k="Owner / Reviewer" v={tool.owner} />
+            {tool.type === "internal-agent" && tool.pocOrder && (
+              <MetaRow k="Recommended POC Order" v={`#${tool.pocOrder} of 10`} />
+            )}
+            {tool.humanApprovalRequired !== undefined && (
+              <MetaRow k="Human Approval Required" v={tool.humanApprovalRequired ? "Yes" : "TBD"} />
+            )}
             <MetaRow k="Target Users" v={tool.targetUsers} last />
           </div>
 
