@@ -1,0 +1,48 @@
+name: "\U0001F6A8 Report a Problem"
+description: Report an issue with a catalog entry, broken link, inaccurate claim, or security/compliance concern.
+title: "[Problem Report]: "
+labels: ["Security Review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form to flag anything wrong in the marketplace — from a broken link to an inaccurate status claim to a security concern.
+
+        **⚠️ If this concerns an active, unpatched security vulnerability, do not describe exploit details here.** Instead, contact the project's listed Owner/Reviewer directly or use WASL's internal security incident process, and open this issue only to note that a report was made privately.
+
+  - type: dropdown
+    id: problem-type
+    attributes:
+      label: Type of Problem
+      options:
+        - Broken link
+        - Inaccurate status or claim (e.g. says "Approved" but isn't)
+        - Compliance concern
+        - Security concern (non-sensitive — see warning above for active vulnerabilities)
+        - Outdated documentation
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: affected-page
+    attributes:
+      label: Affected Page / Project
+      placeholder: e.g. /projects/dify/README.md
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      placeholder: Describe the problem clearly.
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggested-fix
+    attributes:
+      label: Suggested Fix (optional)
+    validations:
+      required: false

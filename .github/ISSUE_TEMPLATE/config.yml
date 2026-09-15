@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Governance Process
+    url: https://github.com/KhalidAzm1/wasl-ai-marketplace/blob/main/docs/governance.md
+    about: Read how projects move through review before opening an issue.

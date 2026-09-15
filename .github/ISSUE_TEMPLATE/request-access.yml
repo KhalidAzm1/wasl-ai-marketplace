@@ -1,0 +1,86 @@
+name: "\U0001F511 Request Access to AI Tool"
+description: Request access to a tool listed in the WASL AI Marketplace (internal use only).
+title: "[Access Request]: "
+labels: ["access-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This repository is private and intended for internal WASL use. Even so, please **do not include passwords, API keys, customer records, or other sensitive data** in this form.
+        Access is only granted for projects at ✅ Approved or 🟢 Production status, for their defined use cases. Requests for 🔵 Research or 🟡 Pilot projects will be logged as expressions of interest.
+
+  - type: input
+    id: employee-name
+    attributes:
+      label: Employee Name
+    validations:
+      required: true
+
+  - type: input
+    id: department
+    attributes:
+      label: Department
+    validations:
+      required: true
+
+  - type: input
+    id: tool-requested
+    attributes:
+      label: Tool Requested
+      placeholder: e.g. Dify, AnythingLLM
+    validations:
+      required: true
+
+  - type: textarea
+    id: business-use-case
+    attributes:
+      label: Business Use Case
+      placeholder: What will you use this tool for?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: frequency
+    attributes:
+      label: Expected Frequency of Use
+      options:
+        - Daily
+        - Weekly
+        - Monthly
+        - Occasional / one-off
+    validations:
+      required: true
+
+  - type: dropdown
+    id: data-type
+    attributes:
+      label: Type of Data Involved
+      options:
+        - No sensitive data (public/synthetic only)
+        - Internal/operational data (non-sensitive)
+        - Customer data
+        - Financial/banking data
+        - Employee/HR data
+        - Other regulated data
+    validations:
+      required: true
+
+  - type: dropdown
+    id: manager-approval
+    attributes:
+      label: Manager Approval Required?
+      options:
+        - "Yes — attached/pending"
+        - "Yes — already obtained"
+        - Not sure
+        - "No"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional Information
+      placeholder: Anything else relevant to this request.
+    validations:
+      required: false

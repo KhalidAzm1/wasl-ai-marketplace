@@ -1,0 +1,142 @@
+name: "\U0001F4A1 Suggest a New AI Tool"
+description: Suggest an AI project, agent, framework, or automation for the WASL AI Marketplace catalog.
+title: "[New AI Tool]: "
+labels: ["new-ai-tool", "Research"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping grow the WASL AI Marketplace! Please fill in as much detail as you can.
+        New suggestions are added to the catalog at **🔵 Research** status and go through the review process described in [`/docs/governance.md`](../../docs/governance.md).
+        **Do not paste any sensitive WASL data, customer data, or credentials into this form.**
+
+  - type: input
+    id: tool-name
+    attributes:
+      label: Tool / Project Name
+      placeholder: e.g. LangFlow
+    validations:
+      required: true
+
+  - type: input
+    id: github-url
+    attributes:
+      label: GitHub URL
+      placeholder: https://github.com/org/repo
+    validations:
+      required: true
+
+  - type: input
+    id: website
+    attributes:
+      label: Website
+      placeholder: https://example.com (leave blank if none)
+    validations:
+      required: false
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does it solve?
+      placeholder: Describe the problem this tool addresses.
+    validations:
+      required: true
+
+  - type: textarea
+    id: beneficiaries
+    attributes:
+      label: Who could benefit from it?
+      placeholder: Which teams, roles, or departments?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: department
+    attributes:
+      label: Suggested Department
+      options:
+        - AI Assistants
+        - Automation
+        - Meetings
+        - Product & Business
+        - Developers
+        - Data & Analytics
+        - Marketing
+        - Finance
+        - HR
+        - Compliance & Legal
+        - Cybersecurity
+        - Research
+        - Other (explain in notes)
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Suggested Use Case
+      placeholder: Describe a concrete way WASL might use this tool.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: company-data
+    attributes:
+      label: Does it require company data?
+      options:
+        - "No"
+        - "Yes — internal/operational only"
+        - "Yes — sensitive or regulated data"
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: customer-data
+    attributes:
+      label: Does it require customer data?
+      options:
+        - "No"
+        - "Yes"
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: external-apis
+    attributes:
+      label: Does it require external APIs?
+      options:
+        - "No"
+        - "Yes"
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: self-hosted
+    attributes:
+      label: Can it be self-hosted?
+      options:
+        - "Yes"
+        - "No"
+        - Partially
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: why-evaluate
+    attributes:
+      label: Why should WASL evaluate it?
+      placeholder: What makes this worth WASL's time to review?
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional Notes
+      placeholder: Anything else reviewers should know.
+    validations:
+      required: false
