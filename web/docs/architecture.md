@@ -16,14 +16,14 @@ Concretely: an employee clicking **Request Access** fills out a normal web form.
 - **Governance stays intact.** Review history, security review templates, and audit trail continue to live in GitHub exactly as designed — nothing about the governance process changes, only how employees *consume* the result of that governance.
 - **Scalability.** The web app reads from a typed JSON data model (`src/data/tools.json`), not hard-coded components, so adding the 3rd, 30th, or 300th tool is a data change, not a code change.
 
-## v1.1: internal WASL Agents and the shared agent platform
+## v1.1 / v1.2: internal WASL Agents and the shared agent platform
 
 Starting in v1.1, the catalog holds two kinds of entry (see the `type` field on the `Tool` model in `src/types/tool.ts`):
 
-- **`external-platform`** — a third-party/open-source platform WASL is evaluating as infrastructure (Dify, AnythingLLM). Unchanged from v1.0.
-- **`internal-agent`** — a WASL-specific agent *concept* (e.g. WASL Regulatory Copilot, WASL Data Analyst). These are **not separate external GitHub projects** and are **not deployed** — every one of them is a Research-stage concept write-up, same governance pipeline as any other catalog entry.
+- **`external-platform`** — a third-party/open-source platform WASL is evaluating as infrastructure (Dify, AnythingLLM in v1.0; Langfuse, Flowise, and Open WebUI added in v1.2).
+- **`internal-agent`** — a WASL-specific agent *concept* (e.g. WASL Regulatory Copilot, WASL Data Analyst). These are **not separate external GitHub projects** and are **not deployed** — every one of them is a Research-stage concept write-up, same governance pipeline as any other catalog entry. v1.2 added four more (IT Helpdesk, Cybersecurity, Customer Support, Legal Contract) alongside the original ten from v1.1, for fourteen total.
 
-The ten internal agents added in v1.1 are proposed to share one platform rather than each getting bespoke infrastructure:
+The fourteen internal agents added so far are proposed to share one platform rather than each getting bespoke infrastructure:
 
 ```
 Employee
@@ -44,7 +44,9 @@ Azure OpenAI + Azure AI Search + Approved Internal Systems
 Output / Action / Human Approval
 ```
 
-**Why a shared platform, not per-agent infrastructure:** ten agents each provisioning their own hosting, auth, and integration plumbing would multiply both engineering effort and the Security Review surface area. A shared platform means one hosting environment, one integration layer, and one set of security controls to review — individual agents differ in their *logic* (prompts, workflows, data sources), not their infrastructure.
+**Why a shared platform, not per-agent infrastructure:** fourteen agents each provisioning their own hosting, auth, and integration plumbing would multiply both engineering effort and the Security Review surface area. A shared platform means one hosting environment, one integration layer, and one set of security controls to review — individual agents differ in their *logic* (prompts, workflows, data sources), not their infrastructure.
+
+Langfuse (see the catalog entry and `projects/langfuse/README.md`) is proposed as a complementary observability layer that would sit alongside this pipeline once any agent reaches a real build — not a replacement for any layer above, and not yet provisioned either.
 
 ### Replit vs. n8n vs. Azure OpenAI vs. Azure AI Search — responsibilities
 
@@ -59,11 +61,18 @@ This split is proposed, not built. No Replit app, n8n instance, or Azure resourc
 
 ### Human approval is a first-class field, not an afterthought
 
-Every internal agent's catalog entry carries a `humanApprovalRequired` field. Where true (all ten v1.1 agents currently set this), the entry's Security & Compliance section on the detail page explicitly states that irreversible actions, financial transactions, external communications, or writes to systems of record must be confirmed by a person — the agent proposes, a human decides. This is a design constraint carried into the data model, not just prose.
+Every internal agent's catalog entry carries a `humanApprovalRequired` field. Where true (all fourteen internal agents currently set this, v1.1 and v1.2 alike), the entry's Security & Compliance section on the detail page explicitly states that irreversible actions, financial transactions, external communications, or writes to systems of record must be confirmed by a person — the agent proposes, a human decides. This is a design constraint carried into the data model, not just prose.
 
 ### POC roadmap
 
-Internal agents carry a `pocOrder` field reflecting the marketplace maintainers' recommended build order (1 = build first). This is rendered as a roadmap section on the marketplace homepage and referenced from `/docs/governance.md`. It is an initial recommendation pending PMO/leadership sign-off — not a committed schedule, and not a claim that any agent is being actively built.
+Internal agents carry a `pocOrder` field reflecting the marketplace maintainers' recommended build order (1 = build first, 14 = last of the current set). This is rendered as a roadmap section on the marketplace homepage, referenced from `/docs/governance.md`, and shown as a sortable list on the `/review` page (see "Review Queue and Compare" below). It is an initial recommendation pending PMO/leadership sign-off — not a committed schedule, and not a claim that any agent is being actively built.
+
+### Review Queue and Compare (v1.2)
+
+Two read-only pages added in v1.2, both computed entirely from the existing `tools.json` data with no new fields:
+
+- **`/review`** (`src/app/review/page.tsx`, backed by `getReviewQueue()` in `src/lib/tools.ts`) — every catalog entry still at Research status, internal agents first (sorted by `pocOrder`) then external platforms (sorted by name). Meant for marketplace maintainers to see what still needs a decision, at a glance, without cross-referencing GitHub issues by hand. It does not move anything through the governance pipeline itself — status changes still happen the normal way (a Pull Request updating `tools.json`, per the Contribution Guide).
+- **`/compare`** (`src/app/compare/page.tsx` + `CompareClient.tsx`) — select up to three tools or agents and see their type, status, security level, target users, priority, human-approval flag, deployment model, and integrations side by side. Selection is carried in the URL's `ids` query parameter (e.g. `/compare?ids=dify,langfuse`) rather than browser storage, so a comparison can be bookmarked or shared with a link.
 
 ## Data flow
 
