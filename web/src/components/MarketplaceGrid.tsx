@@ -2,7 +2,15 @@
 
 import { useMemo, useState } from "react";
 import type { Tool } from "@/types/tool";
-import { CATEGORIES, DEPARTMENTS, STATUS_FILTERS, STATUS_META } from "@/data/taxonomy";
+import {
+  CATEGORIES,
+  DEPARTMENTS,
+  STATUS_FILTERS,
+  STATUS_META,
+  TOOL_TYPE_FILTERS,
+  TOOL_TYPE_META,
+  PRIORITY_FILTERS,
+} from "@/data/taxonomy";
 import ToolCard from "./ToolCard";
 import EmptyState from "./EmptyState";
 
@@ -33,14 +41,18 @@ function Chip({
 export default function MarketplaceGrid({
   tools,
   initialCategory,
+  initialType,
 }: {
   tools: Tool[];
   initialCategory?: string;
+  initialType?: string;
 }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string>(initialCategory ?? "all");
   const [status, setStatus] = useState<string>("all");
   const [department, setDepartment] = useState<string>("all");
+  const [type, setType] = useState<string>(initialType ?? "all");
+  const [priority, setPriority] = useState<string>("all");
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -55,9 +67,11 @@ export default function MarketplaceGrid({
         category === "all" || t.category === category || t.secondaryCategory === category;
       const matchesStatus = status === "all" || t.status === status;
       const matchesDepartment = department === "all" || t.departments.includes(department as never);
-      return matchesQuery && matchesCategory && matchesStatus && matchesDepartment;
+      const matchesType = type === "all" || t.type === type;
+      const matchesPriority = priority === "all" || t.priority === priority;
+      return matchesQuery && matchesCategory && matchesStatus && matchesDepartment && matchesType && matchesPriority;
     });
-  }, [tools, query, category, status, department]);
+  }, [tools, query, category, status, department, type, priority]);
 
   return (
     <div>
@@ -72,6 +86,28 @@ export default function MarketplaceGrid({
             className="w-full rounded-xl border border-slate-300 bg-white py-3.5 pl-11 pr-4 text-sm shadow-card outline-none transition-shadow focus:border-brand focus:ring-4 focus:ring-brand/15 dark:border-slate-700 dark:bg-slate-900"
           />
         </div>
+      </div>
+
+      <div className="mb-2.5 flex flex-wrap justify-center gap-2">
+        <Chip active={type === "all"} onClick={() => setType("all")}>
+          All Tools
+        </Chip>
+        {TOOL_TYPE_FILTERS.map((t) => (
+          <Chip key={t} active={type === t} onClick={() => setType(t)}>
+            {t === "internal-agent" ? "🧩" : "🔌"} {TOOL_TYPE_META[t].label}
+          </Chip>
+        ))}
+      </div>
+
+      <div className="mb-2.5 flex flex-wrap justify-center gap-2">
+        <Chip active={priority === "all"} onClick={() => setPriority("all")}>
+          All Priorities
+        </Chip>
+        {PRIORITY_FILTERS.map((p) => (
+          <Chip key={p} active={priority === p} onClick={() => setPriority(p)}>
+            {p}
+          </Chip>
+        ))}
       </div>
 
       <div className="mb-2.5 flex flex-wrap justify-center gap-2">
