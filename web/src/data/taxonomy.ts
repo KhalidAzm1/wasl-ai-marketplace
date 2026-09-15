@@ -4,7 +4,7 @@
  * inside a component.
  */
 
-import type { Category, Department, ToolStatus, SecurityLevel } from "@/types/tool";
+import type { Category, Department, ToolStatus, SecurityLevel, ToolType, Priority } from "@/types/tool";
 
 export const CATEGORIES: Category[] = [
   "AI Assistants",
@@ -20,6 +20,9 @@ export const CATEGORIES: Category[] = [
   "Compliance & Legal",
   "Cybersecurity",
   "Research",
+  "PMO / Management",
+  "Banking / Operations",
+  "Business Development / Partnerships",
 ];
 
 export const DEPARTMENTS: Department[] = [
@@ -34,7 +37,46 @@ export const DEPARTMENTS: Department[] = [
   "Compliance & Legal",
   "Cybersecurity",
   "Technology",
+  "Management",
+  "PMO",
+  "Project Managers",
+  "Banking Operations",
+  "Operations",
+  "QA",
+  "Engineering",
+  "Business Development",
+  "Partnerships",
+  "Sales",
+  "Accounting",
+  "Legal",
+  "Risk",
+  "Content Team",
+  "Growth",
 ];
+
+export const TOOL_TYPE_FILTERS: ToolType[] = ["internal-agent", "external-platform"];
+
+export const TOOL_TYPE_META: Record<ToolType, { label: string; shortLabel: string; description: string }> = {
+  "internal-agent": {
+    label: "Internal WASL Agents",
+    shortLabel: "WASL Internal Concept",
+    description: "A WASL-specific agent concept, proposed to be built on WASL's shared agent platform.",
+  },
+  "external-platform": {
+    label: "AI Platforms",
+    shortLabel: "External Platform",
+    description: "A third-party or open-source platform WASL is evaluating as possible infrastructure.",
+  },
+};
+
+export const PRIORITY_FILTERS: Priority[] = ["Very High", "High", "Medium", "Low"];
+
+export const PRIORITY_META: Record<Priority, { textClass: string; bgClass: string }> = {
+  "Very High": { textClass: "text-risk-high", bgClass: "bg-risk-high/10" },
+  High: { textClass: "text-risk-medium", bgClass: "bg-risk-medium/10" },
+  Medium: { textClass: "text-brand", bgClass: "bg-brand/10" },
+  Low: { textClass: "text-slate-500", bgClass: "bg-slate-500/10" },
+};
 
 export const STATUS_FILTERS: ToolStatus[] = ["research", "pilot", "approved", "production"];
 
