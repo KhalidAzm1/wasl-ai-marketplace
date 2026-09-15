@@ -32,20 +32,48 @@ AI tooling is spreading fast, and without a shared catalog, WASL risks duplicate
 
 Technical readers who want the full governance record behind any tool (review history, security review notes, etc.) can still browse [`/projects`](projects/) directly here.
 
+## Two kinds of catalog entry
+
+Starting in **v1.1**, the catalog distinguishes two kinds of entry, both governed by the same Research → Production pipeline:
+
+- **AI Platforms** (`type: external-platform`) — third-party or open-source software WASL is evaluating as possible infrastructure (Dify, AnythingLLM). These remain unchanged from v1.0.
+- **Internal WASL Agents** (`type: internal-agent`) — WASL-specific agent *concepts* proposed to be built on WASL's own shared agent platform (Replit + n8n + Azure OpenAI + Azure AI Search), not separate external GitHub projects. See [`/web/docs/architecture.md`](web/docs/architecture.md) for the shared-platform design and the Replit/n8n/Azure OpenAI/Azure AI Search responsibility split.
+
+The web app clearly labels each entry (`🧩 WASL Internal Concept` vs `🔌 External Platform`) and filters by type so employees never confuse a platform WASL might adopt with a WASL-built product.
+
 ## Categories
 
 The catalog is organized into scalable categories so it can grow to dozens or hundreds of tools over time:
 
-`AI Assistants` · `Automation` · `Knowledge & RAG` · `Meetings` · `Product & Business` · `Developers` · `Data & Analytics` · `Marketing` · `Finance` · `HR` · `Compliance & Legal` · `Cybersecurity` · `Research`
+`AI Assistants` · `Automation` · `Knowledge & RAG` · `Meetings` · `Product & Business` · `Developers` · `Data & Analytics` · `Marketing` · `Finance` · `HR` · `Compliance & Legal` · `Cybersecurity` · `Research` · `PMO / Management` · `Banking / Operations` · `Business Development / Partnerships`
 
 ## Current catalog
+
+### AI Platforms
 
 | Tool | Category | Status | Security | Original Repository |
 |---|---|---|---|---|
 | [Dify](projects/dify/README.md) | AI Assistants / Automation | 🔵 Research | 🟡 Medium Risk | [langgenius/dify](https://github.com/langgenius/dify) |
 | [AnythingLLM](projects/anythingllm/README.md) | AI Assistants / Knowledge & RAG | 🔵 Research | 🟡 Medium Risk | [Mintplex-Labs/anything-llm](https://github.com/Mintplex-Labs/anything-llm) |
 
-Both tools are at **🔵 Research** status — they are being evaluated, not deployed. All use cases described on their pages (here and in the web app) are proposed, not live.
+### Internal WASL Agents (v1.1 — added as Research-stage concepts)
+
+| Agent | Category | Status | Security | Priority | POC Order |
+|---|---|---|---|---|---|
+| [WASL Product & BA Copilot](projects/wasl-product-ba-copilot/README.md) | Product & Business | 🔵 Research | 🟡 Medium Risk | Very High | 1 |
+| [WASL Regulatory Copilot](projects/wasl-regulatory-copilot/README.md) | Compliance & Legal | 🔵 Research | 🔴 High Risk | Very High | 2 |
+| [WASL Data Analyst](projects/wasl-data-analyst/README.md) | Data & Analytics | 🔵 Research | 🔴 High Risk | Very High | 3 |
+| [WASL Executive PMO Agent](projects/wasl-executive-pmo-agent/README.md) | PMO / Management | 🔵 Research | 🟡 Medium Risk | Very High | 4 |
+| [WASL Banking Ops Agent](projects/wasl-banking-ops-agent/README.md) | Banking / Operations | 🔵 Research | 🔴 High Risk | Very High | 5 |
+| [WASL Finance Ops Agent](projects/wasl-finance-ops-agent/README.md) | Finance | 🔵 Research | 🔴 High Risk | High | 6 |
+| [WASL HR Copilot](projects/wasl-hr-copilot/README.md) | HR | 🔵 Research | 🔴 High Risk | High | 7 |
+| [WASL Growth Agent](projects/wasl-growth-agent/README.md) | Marketing | 🔵 Research | 🟡 Medium Risk | High | 8 |
+| [WASL Dev Review Agent](projects/wasl-dev-review-agent/README.md) | Developers | 🔵 Research | 🟡 Medium Risk | High | 9 |
+| [WASL BD Intelligence Agent](projects/wasl-bd-intelligence-agent/README.md) | Business Development / Partnerships | 🔵 Research | 🟡 Medium Risk | High | 10 |
+
+All 12 catalog entries are at **🔵 Research** status — none are built, deployed, approved, or SAMA compliant. All capabilities, use cases, and integrations described on their pages (here and in the web app) are proposed, not live. Security classifications above are an **initial assessment pending formal Security Review**, not a final determination.
+
+The POC Order column reflects the marketplace maintainers' recommended internal-agent build order — an initial recommendation pending PMO/leadership sign-off, not a committed schedule. It's also shown as a roadmap on the marketplace homepage.
 
 ## How to suggest an AI tool
 
@@ -90,9 +118,10 @@ Tools move through a lightweight, risk-proportionate review pipeline: **Suggeste
 │   ├── security.md
 │   ├── contribution-guide.md
 │   └── status-definitions.md
-├── projects/                # Full governance write-up per tool (source of truth)
+├── projects/                # Full governance write-up per tool/agent (source of truth)
 │   ├── dify/README.md
-│   └── anythingllm/README.md
+│   ├── anythingllm/README.md
+│   └── wasl-*/README.md     # 10 internal WASL Agent concepts (v1.1)
 ├── templates/
 │   ├── ai-project-template.md
 │   ├── security-review-template.md
