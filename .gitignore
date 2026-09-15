@@ -1,0 +1,28 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Node (site tooling, if added later)
+node_modules/
+dist/
+.cache/
+
+# Environment / secrets — never commit these
+.env
+.env.*
+*.pem
+*.key
+secrets.*
+credentials.*
+
+# Logs
+*.log
+npm-debug.log*
+
+# Local overrides
+local.settings.json
