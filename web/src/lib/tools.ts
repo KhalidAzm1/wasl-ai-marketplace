@@ -37,5 +37,26 @@ export function getCatalogStats() {
   const categoriesCovered = new Set(
     TOOLS.flatMap((t) => [t.category, t.secondaryCategory].filter(Boolean))
   ).size;
-  return { total, byStatus, categoriesCovered };
+  const internalAgents = TOOLS.filter((t) => t.type === "internal-agent").length;
+  const externalPlatforms = TOOLS.filter((t) => t.type === "external-platform").length;
+  return { total, byStatus, categoriesCovered, internalAgents, externalPlatforms };
+}
+
+/** All WASL-specific internal agent concepts (not external platforms), in data-file order. */
+export function getInternalAgents(): Tool[] {
+  return TOOLS.filter((t) => t.type === "internal-agent");
+}
+
+/** All third-party/open-source platforms WASL is evaluating. */
+export function getExternalPlatforms(): Tool[] {
+  return TOOLS.filter((t) => t.type === "external-platform");
+}
+
+/** Internal agents ordered by their recommended POC build order (pocOrder ascending; undefined last). */
+export function getPocRoadmap(): Tool[] {
+  return getInternalAgents().sort((a, b) => {
+    const ao = a.pocOrder ?? Number.MAX_SAFE_INTEGER;
+    const bo = b.pocOrder ?? Number.MAX_SAFE_INTEGER;
+    return ao - bo;
+  });
 }
