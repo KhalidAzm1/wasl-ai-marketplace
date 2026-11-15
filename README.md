@@ -1,4 +1,5 @@
 # WASL AI Marketplace
+**👈 للموظفين: الوكلاء الجاهزة للاستخدام في مجلد agents**
 
 **An internal, curated catalog of AI tools, agents, automations, and frameworks for WASL employees.**
 
